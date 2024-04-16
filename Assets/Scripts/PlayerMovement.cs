@@ -1,7 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    private const string Horizontal = nameof(Horizontal);
+    private const string HorizontalMove = nameof(HorizontalMove);
+    private const string IsJumping = nameof(IsJumping);
+
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Animator _animator;
@@ -9,10 +14,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _ground;
     [SerializeField] private float _groundCheckRadius;
-
-    private const string Horizontal = nameof(Horizontal);
-    private const string HorizontalMove = nameof(HorizontalMove);
-    private const string IsJumping = nameof(IsJumping);
 
     private Rigidbody2D _rigidbody2D;
     private Vector2 _position;
@@ -29,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Move();
-        Flip();
+        TryFlip();
         Jump();
         PlayAnimation();
     }
@@ -51,13 +52,7 @@ public class PlayerMovement : MonoBehaviour
             _jumpCount = 0;
     }
 
-    private void Flip()
-    {
-        if (_position.x > 0)
-            _spriteRenderer.flipX = false;
-        else
-            _spriteRenderer.flipX = true;
-    }
+    private void TryFlip() => _spriteRenderer.flipX = (_position.x < 0) == true;
 
     private void PlayAnimation()
     {

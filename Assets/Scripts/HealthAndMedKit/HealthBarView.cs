@@ -1,16 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class WalletView : MonoBehaviour
+public class HealthBarView : MonoBehaviour
 {
+    [SerializeField] private HealthBar _healthBar;
     [SerializeField] private TextMeshProUGUI _textMash;
-    [SerializeField] private Wallet _wallet;
+
+    private void Start()
+    {
+        _textMash.text = _healthBar.Value.ToString();
+    }
 
     private void OnEnable()
     {
-        _wallet.Changed += OnChanged;
+        _healthBar.Changed += OnChanged;
     }
 
     private void OnChanged(int value)

@@ -1,9 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] Transform[] _wayPoints;
-    [SerializeField] SpriteRenderer _spriteRenderer;
+    private const string Player = "Player";
+
+    [SerializeField] private Transform[] _wayPoints;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Transform _player;
     [SerializeField] private float _moveSpeed;
 
     private int _currentPoint = 0;
@@ -11,10 +15,10 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         Move();
-        Flip();
+        TryTFlip();
     }
 
-    private void Move()
+    public void Move()
     {
         if (transform.position.x == _wayPoints[_currentPoint].position.x)
             _currentPoint = (_currentPoint + 1) % _wayPoints.Length;
@@ -22,11 +26,18 @@ public class EnemyMovement : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, _wayPoints[_currentPoint].position, _moveSpeed * Time.deltaTime);
     }
 
-    private void Flip()
+    private void TryTFlip() => _spriteRenderer.flipX = (transform.position.x > _wayPoints[_currentPoint].position.x) == false;
+
+    public void ChasePlayer()
     {
-        if (transform.position.x > _wayPoints[_currentPoint].position.x)
-            _spriteRenderer.flipX = false;
-        else
-            _spriteRenderer.flipX = true;
+        transform.position = Vector2.MoveTowards(transform.position, _player.position, _moveSpeed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == Player)
+        {
+            Destroy(gameObject);
+        }
     }
 }
