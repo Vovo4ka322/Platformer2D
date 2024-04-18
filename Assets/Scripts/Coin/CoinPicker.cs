@@ -12,8 +12,8 @@ public class CoinPicker : MonoBehaviour
 
     private void PickUp(Coin coin)
     {
-        Destroy(coin.gameObject);
-
         _wallet.Add(coin.Value);
+
+        Destroy(coin.gameObject);
     }
 }

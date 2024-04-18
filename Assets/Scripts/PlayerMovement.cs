@@ -43,13 +43,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump()
     {
-        _isGround = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _ground);
-
-        if (Input.GetKeyDown(KeyCode.Space) && (_isGround || (++_jumpCount < _maxJumpCount)))
+        if (CanJumping())
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForce);
-
-        if (_isGround)
-            _jumpCount = 0;
     }
 
     private void TryFlip() => _spriteRenderer.flipX = (_position.x < 0) == true;
@@ -58,5 +53,18 @@ public class PlayerMovement : MonoBehaviour
     {
         _horizontalMove = Input.GetAxis(Horizontal);
         _animator.SetFloat(HorizontalMove, Mathf.Abs(_horizontalMove));
+    }
+
+    private bool CanJumping()
+    {
+        _isGround = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _ground);
+
+        if (Input.GetKeyDown(KeyCode.Space) && (_isGround || (++_jumpCount < _maxJumpCount)))
+            return true;
+
+        if (_isGround)
+            _jumpCount = 0;
+
+        return false;
     }
 }

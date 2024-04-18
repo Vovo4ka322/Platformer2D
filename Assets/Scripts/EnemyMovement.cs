@@ -1,41 +1,57 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private const string Player = "Player";
-
     [SerializeField] private Transform[] _wayPoints;
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private Transform _player;
+    [SerializeField] private Transform _target;
     [SerializeField] private float _moveSpeed;
 
     private int _currentPoint = 0;
+    private bool _isPlayerFound;
+
+    private void Awake()
+    {
+        _target = _wayPoints[_currentPoint];
+    }
 
     private void Update()
     {
-        Move();
-        TryTFlip();
+        if (_isPlayerFound == false)
+        {
+            if (transform.position.x == _wayPoints[_currentPoint].position.x)
+            {
+                _currentPoint = (_currentPoint + 1) % _wayPoints.Length;
+                _target = _wayPoints[_currentPoint];
+            }
+        }
+
+        MoveToTarget();
+        TryFlip();
     }
 
-    public void Move()
+    public void MoveToTarget()
     {
-        if (transform.position.x == _wayPoints[_currentPoint].position.x)
-            _currentPoint = (_currentPoint + 1) % _wayPoints.Length;
-
-        transform.position = Vector2.MoveTowards(transform.position, _wayPoints[_currentPoint].position, _moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _target.position, _moveSpeed * Time.deltaTime);
     }
 
-    private void TryTFlip() => _spriteRenderer.flipX = (transform.position.x > _wayPoints[_currentPoint].position.x) == false;
+    private void TryFlip() => _spriteRenderer.flipX = (transform.position.x > _target.position.x) == false;
 
-    public void ChasePlayer()
+    public void StartChasePlayer(Transform player)
     {
-        transform.position = Vector2.MoveTowards(transform.position, _player.position, _moveSpeed * Time.deltaTime);
+        _isPlayerFound = true;
+        _target = player;
+    }
+
+    public void StopChasePlayer()
+    {
+        _isPlayerFound = false;
+        _target = _wayPoints[_currentPoint];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == Player)
+        if (collision.gameObject.TryGetComponent(out PlayerMovement playerMovement))
         {
             Destroy(gameObject);
         }
