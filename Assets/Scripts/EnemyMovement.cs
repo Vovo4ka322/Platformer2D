@@ -7,6 +7,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private float _moveSpeed;
 
+    private Health _health;
     private int _currentPoint = 0;
     private bool _isPlayerFound;
 
