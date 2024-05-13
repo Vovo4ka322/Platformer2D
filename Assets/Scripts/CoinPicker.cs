@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CoinPicker : MonoBehaviour
@@ -12,8 +13,8 @@ public class CoinPicker : MonoBehaviour
 
     private void PickUp(Coin coin)
     {
-        _wallet.Add(coin.Value);
-
         Destroy(coin.gameObject);
+
+        _wallet.Add(coin.Value);
     }
 }

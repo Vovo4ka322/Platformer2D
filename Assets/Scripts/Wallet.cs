@@ -1,11 +1,13 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Wallet : MonoBehaviour
 {
-    private int _value;
-
     public event Action<int> Changed;
+
+    private int _value;
 
     public void Add(int amount)
     {

@@ -5,8 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Coin
-  - Enemy
-  - Button
   layers:
   - Default
   - TransparentFX
