@@ -17,7 +17,7 @@ public class HealthView : MonoBehaviour
         _bar.size = _healthBar.CurrentHealth * _coefficient;
     }
 
-    public void Update()
+    public void LateUpdate()
     {
         _bar.size = Mathf.MoveTowards(_bar.size, _healthBar.CurrentHealth * _coefficient, _maxDelta);
     }
@@ -25,6 +25,11 @@ public class HealthView : MonoBehaviour
     private void OnEnable()
     {
         _healthBar.Changed += OnChanged;
+    }
+
+    private void OnDisable()
+    {
+        _healthBar.Changed -= OnChanged;
     }
 
     private void OnChanged(int value)

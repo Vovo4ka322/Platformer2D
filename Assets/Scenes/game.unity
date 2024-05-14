@@ -2235,8 +2235,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 737228759}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+      - m_Target: {fileID: 737228760}
+        m_TargetAssemblyTypeName: HealthStealer, Assembly-CSharp
         m_MethodName: UseAbility
         m_Mode: 1
         m_Arguments:
@@ -4029,7 +4029,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 737228758}
   _movement: {fileID: 737228752}
-  _healthStealer: {fileID: 737228760}
 --- !u!114 &737228760
 MonoBehaviour:
   m_ObjectHideFlags: 0

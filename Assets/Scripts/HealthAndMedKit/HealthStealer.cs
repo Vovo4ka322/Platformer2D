@@ -14,8 +14,8 @@ public class HealthStealer : MonoBehaviour
 
     public IEnumerator StealHealth(List<Enemy> enemies)
     {
-        //if (enemies == null)
-        //    yield break;
+        if (enemies == null)
+            yield break;
 
         float second = 1f;
 
@@ -25,7 +25,7 @@ public class HealthStealer : MonoBehaviour
 
         for (int i = 0; i < _vampirismDuration; i++)
         {
-            if (enemy.Health.CurrentHealth > 0 && enemies != null)
+            if (enemy.Health.CurrentHealth > 0)
             {
                 _health.TakeHealing(_healthSteal);
                 enemy.Health.TakeDamage(_healthSteal);
@@ -33,6 +33,14 @@ public class HealthStealer : MonoBehaviour
                 yield return oneSecond;
             }
         }
+    }
+
+    public void UseAbility()
+    {
+        List<Enemy> targets = FindTargets();
+        IEnumerator healthStealer = StealHealth(targets);
+
+        StartCoroutine(healthStealer);
     }
 
     private void OnDrawGizmos()
