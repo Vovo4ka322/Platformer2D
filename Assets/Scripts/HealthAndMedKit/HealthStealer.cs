@@ -12,6 +12,12 @@ public class HealthStealer : MonoBehaviour
 
     private int _healthSteal = 5;
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(_enemyChecker.position,_vampirismRadious);
+    }
+
     public IEnumerator StealHealth(List<Enemy> enemies)
     {
         if (enemies == null)
@@ -43,11 +49,6 @@ public class HealthStealer : MonoBehaviour
         StartCoroutine(healthStealer);
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(_enemyChecker.position,_vampirismRadious);
-    }
 
     public List<Enemy> FindTargets()
     {

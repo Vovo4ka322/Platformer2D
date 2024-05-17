@@ -7,9 +7,10 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private float _moveSpeed;
 
-    public Health _health {  get; private set; }
     private int _currentPoint = 0;
     private bool _isPlayerFound;
+
+    public Health Health {  get; private set; }
 
     private void Awake()
     {
@@ -49,12 +50,4 @@ public class EnemyMovement : MonoBehaviour
         _isPlayerFound = false;
         _target = _wayPoints[_currentPoint];
     }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.TryGetComponent(out PlayerMovement playerMovement))
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
 }
